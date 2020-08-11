@@ -1,16 +1,15 @@
-import datetime
+from datetime import datetime
 
 
 class _pomodoro:
-    def __init__(self, count=0):
+    def __init__(self, count=0, time=0):
         self.count = count
 
-    def get_count(self):
+    def get_count(self) -> int:
         return self.count
 
-    def start_timer(self):
-        now = datetime.now(tz=None)
-        return now
+    def start_timer(self) -> None:
+        self.time = datetime.now(tz=None)
 
 
 def main():
