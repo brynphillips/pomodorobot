@@ -1,0 +1,4 @@
+.activate.sh
+.deactivate.sh
+venv/
+*.mypy_cache/
