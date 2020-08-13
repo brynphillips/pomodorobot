@@ -1,5 +1,5 @@
 from datetime import datetime
-
+import time
 
 class _pomodoro:
     def __init__(self, count, time):
@@ -22,11 +22,12 @@ def pomodoro_start() -> bool:
     print(pomodoro.time)
     while True:
         timedelta = datetime.now(tz=None) - pomodoro.time
-        if timedelta.total_seconds() % 60 == 0:
+        if int(timedelta.total_seconds()) % 60 == 0:
             print(
                 f'{int(timedelta.total_seconds()//60)} minutes has lapsed.',
                 end='\r',
             )
+        time.sleep(0.3)
         if timedelta.total_seconds() == 1500:
             return False
 
