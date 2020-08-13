@@ -23,9 +23,11 @@ def pomodoro_start() -> bool:
     while True:
         timedelta = datetime.now(tz=None) - pomodoro.time
         if timedelta.total_seconds() % 60 == 0:
-            print(f'{int(timedelta.total_seconds()//60)} minutes has elapsed.')
+            print(
+                f'{int(timedelta.total_seconds()//60)} minutes has lapsed.',
+                end='\r',
+            )
         if timedelta.total_seconds() == 1500:
-            print('Time over!')
             return False
 
 
