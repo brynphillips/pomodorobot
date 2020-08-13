@@ -1,5 +1,6 @@
-from datetime import datetime
 import time
+from datetime import datetime
+
 
 class _pomodoro:
     def __init__(self, count, time):
@@ -18,18 +19,32 @@ def pomodoro_start() -> bool:
     pomodoro = _pomodoro(0, datetime.now())
     pomodoro.count += 1
     pomodoro.start_timer
-    print('Started!')
+    if pomodoro.count < 5:
+        print('Started!')
     print(pomodoro.time)
-    while True:
+    while True and pomodoro.count < 4:
         timedelta = datetime.now(tz=None) - pomodoro.time
         if int(timedelta.total_seconds()) % 60 == 0:
             print(
                 f'{int(timedelta.total_seconds()//60)} minutes has lapsed.',
                 end='\r',
             )
-        time.sleep(0.3)
-        if timedelta.total_seconds() == 1500:
+        time.sleep(
+            0.3,
+        )
+        # TODO: Need to figure out the loop for the 4 sessions of workings
+        if int(timedelta.total_seconds()) == 1500 and pomodoro.count < 4:
             return False
+
+        # TODO: This is for the big break.
+        if pomodoro.count == 4:
+            pomodoro.count = 0
+            print('Time to take a 25 minute break! Good job! Keep it up!')
+            timedelta = datetime.now(tz=None) - pomodoro.time
+            if int(timedelta.total_seconds()) == 1500:
+                print('Break is over!')
+                return False
+    return True
 
 
 def main():
