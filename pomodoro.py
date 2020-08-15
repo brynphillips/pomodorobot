@@ -15,40 +15,37 @@ class _pomodoro:
         return self.time
 
 
-def pomodoro_start() -> bool:
-    pomodoro = _pomodoro(0, datetime.now())
-    pomodoro.count += 1
-    pomodoro.start_timer
-    if pomodoro.count < 5:
-        print('Started!')
-    print(pomodoro.time)
-    while True and pomodoro.count < 4:
-        timedelta = datetime.now(tz=None) - pomodoro.time
-        if int(timedelta.total_seconds()) % 60 == 0:
-            print(
-                f'{int(timedelta.total_seconds()//60)} minutes has lapsed.',
-                end='\r',
-            )
-        time.sleep(
-            0.3,
-        )
-        # TODO: Need to figure out the loop for the 4 sessions of workings
-        if int(timedelta.total_seconds()) == 1500 and pomodoro.count < 4:
+def take_break():
+    newtimer = datetime.now()
+    while True:
+        time.sleep(.3)
+        if int((datetime.now() - newtimer).total_seconds()) == 25:
+            print('Break is over!')
             return False
 
-        # TODO: This is for the big break.
-        if pomodoro.count == 4:
-            pomodoro.count = 0
-            print('Time to take a 25 minute break! Good job! Keep it up!')
-            timedelta = datetime.now(tz=None) - pomodoro.time
-            if int(timedelta.total_seconds()) == 1500:
-                print('Break is over!')
-                return False
+
+def pomodoro_run() -> bool:
+    pomodoro = _pomodoro(0, datetime.now())
+    inner = True
+    while pomodoro.count < 5:
+        inner = True
+        pomodoro.count += 1
+        while inner is True:
+            inner = True
+            timedelta_seconds = int(
+                (datetime.now() - pomodoro.time).total_seconds(),
+            )
+            print(f'{timedelta_seconds//5} minutes has elapsed', end='\r')
+            time.sleep(1)
+            if timedelta_seconds == 5:
+                print('\nTime for a break')
+                inner = False
+
     return True
 
 
 def main():
-    pomodoro_start()
+    pomodoro_run()
 
 
 if __name__ == '__main__':
