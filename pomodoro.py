@@ -3,7 +3,7 @@ from datetime import datetime
 
 
 class _pomodoro:
-    def __init__(self, count, time, break_count = 0):
+    def __init__(self, count, time, break_count=0):
         self.count = count
         self.time = time
         self.break_count = break_count
@@ -51,6 +51,7 @@ def pomodoro_run(pomodoro) -> bool:
 
     return True
 
+
 def pomodoro_setup():
     pomodoro = _pomodoro(0, datetime.now())
     pomodoro_run(pomodoro)
@@ -58,6 +59,7 @@ def pomodoro_setup():
 
 def main():
     pomodoro_setup()
+
 
 if __name__ == '__main__':
     exit(main())
