@@ -3,9 +3,10 @@ from datetime import datetime
 
 
 class _pomodoro:
-    def __init__(self, count, time):
+    def __init__(self, count, time, break_count = 0):
         self.count = count
         self.time = time
+        self.break_count = break_count
 
     def get_count(self) -> int:
         return self.count
@@ -15,38 +16,48 @@ class _pomodoro:
         return self.time
 
 
-def take_break():
+def take_break(pomodoro):
     newtimer = datetime.now()
+    print('Starting break...')
+    pomodoro.break_count += 1
     while True:
         time.sleep(.3)
-        if int((datetime.now() - newtimer).total_seconds()) == 25:
+        timedelta_seconds = int(
+            (datetime.now() - newtimer).total_seconds(),
+        )
+
+        if timedelta_seconds == 1500:
             print('Break is over!')
+            pomodoro.start_timer()
             return False
 
 
-def pomodoro_run() -> bool:
-    pomodoro = _pomodoro(0, datetime.now())
+def pomodoro_run(pomodoro) -> bool:
     inner = True
     while pomodoro.count < 5:
+        print('Starting work session...')
         inner = True
         pomodoro.count += 1
         while inner is True:
-            inner = True
             timedelta_seconds = int(
                 (datetime.now() - pomodoro.time).total_seconds(),
             )
-            print(f'{timedelta_seconds//5} minutes has elapsed', end='\r')
+            print(f'{timedelta_seconds//60} minutes has elapsed...', end='\r')
             time.sleep(1)
-            if timedelta_seconds == 5:
+            if timedelta_seconds > 0 and timedelta_seconds % 1500 == 0:
                 print('\nTime for a break')
+                take_break(pomodoro)
                 inner = False
 
     return True
 
+def pomodoro_setup():
+    pomodoro = _pomodoro(0, datetime.now())
+    pomodoro_run(pomodoro)
+
 
 def main():
-    pomodoro_run()
-
+    pomodoro_setup()
 
 if __name__ == '__main__':
     exit(main())
