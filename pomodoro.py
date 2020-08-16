@@ -59,7 +59,7 @@ def pomodoro_setup():
 
 def main():
     pomodoro_setup()
-  
+
 
 if __name__ == '__main__':
     exit(main())
