@@ -1,3 +1,4 @@
+import subprocess
 import time
 from datetime import datetime
 
@@ -16,9 +17,15 @@ class _pomodoro:
         return self.time
 
 
+def sendmessage(message):
+    subprocess.Popen(['notify-send', message])
+    return
+
+
 def take_break(pomodoro):
     newtimer = datetime.now()
     print('Starting break...')
+    sendmessage('Starting break...')
     pomodoro.break_count += 1
     while True:
         time.sleep(.3)
@@ -26,8 +33,9 @@ def take_break(pomodoro):
             (datetime.now() - newtimer).total_seconds(),
         )
 
-        if timedelta_seconds == 1500:
+        if timedelta_seconds == 300:
             print('Break is over!')
+            sendmessage('Break is over!')
             pomodoro.start_timer()
             return False
 
@@ -36,6 +44,7 @@ def pomodoro_run(pomodoro) -> bool:
     inner = True
     while pomodoro.count < 5:
         print('Starting work session...')
+        sendmessage('Starting work session')
         inner = True
         pomodoro.count += 1
         while inner is True:
@@ -46,6 +55,7 @@ def pomodoro_run(pomodoro) -> bool:
             time.sleep(1)
             if timedelta_seconds > 0 and timedelta_seconds % 1500 == 0:
                 print('\nTime for a break')
+                sendmessage('Time for a break!')
                 take_break(pomodoro)
                 inner = False
 
