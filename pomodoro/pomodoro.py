@@ -23,17 +23,14 @@ def sendmessage(message):
 
 
 def take_break(pomodoro):
-    newtimer = datetime.now()
     print('Starting break...')
     sendmessage('Starting break...')
     pomodoro.break_count += 1
     while True:
         time.sleep(.3)
-        timedelta_seconds = int(
-            (datetime.now() - newtimer).total_seconds(),
-        )
-
-        if timedelta_seconds == 300:
+        timedelta = pomodoro.time.now() - pomodoro.time
+        print(timedelta)
+        if timedelta.seconds >= 300:
             print('Break is over!')
             sendmessage('Break is over!')
             pomodoro.start_timer()
