@@ -29,7 +29,6 @@ def take_break(pomodoro):
     while True:
         time.sleep(.3)
         timedelta = pomodoro.time.now() - pomodoro.time
-        print(timedelta)
         if timedelta.seconds >= 300:
             print('Break is over!')
             sendmessage('Break is over!')
@@ -55,7 +54,8 @@ def pomodoro_run(pomodoro) -> bool:
                 sendmessage('Time for a break!')
                 take_break(pomodoro)
                 inner = False
-
+    print('Finished Pomodoro session. Great work!')
+    sendmessage('Finished Pomodoro session. Great work!')
     return True
 
 
