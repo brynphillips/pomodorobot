@@ -26,6 +26,7 @@ def take_break(pomodoro):
     print('Starting break...')
     sendmessage('Starting break...')
     pomodoro.break_count += 1
+    pomodoro.start_timer()
     while True:
         time.sleep(.3)
         timedelta = pomodoro.time.now() - pomodoro.time
