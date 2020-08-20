@@ -17,9 +17,8 @@ class _pomodoro:
         return self.time
 
 
-def sendmessage(message):
-    subprocess.Popen(['notify-send', message])
-    return
+def sendmessage(message) -> None:
+    subprocess.check_call(('notify-send', message))
 
 
 def take_break(pomodoro):
